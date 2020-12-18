@@ -134,32 +134,106 @@ int main()
 	
 
 	while(1){	
+		
+		if(end){
+			end = false;
+			sleep(7);
+	     		p1x = 0;        p1y = 0;
+	         	p2x = 7;        p2y = 7;
+ 	         	bomb1 = false;
+ 	         	bomb2 = false;
+
+		 	for(i = 0; i<8; i++){
+	         		for(j = 0; j<8; j++){
+                			 map[i][j] = 'O';
+                	 	}
+        		 }
+ 
+	    	 	map[p1y][p1x] = '1';
+    		 	map[p2y][p2x] = '2';
+ 
+		}
+		
+		
 		printf("input: ");
 		//scanf("%c\n", &ch);
-		ch = getch();
 		
-		if(ch == 27 || ch==0){
-			ch = getch();
-			ch = getch();
-		}
+		key = getch();           // 3. 방향키가 입력瑛 때 224 00 이 버퍼에 있다. 224부터 빼준다. 
+        	if(key== 27|| key ==0) {
+			key = getch();
+			key = getch();
+            	switch(key) {
+              		case 68:
+                  		printf("1p left\n");
+                  		move(LEFT);
+                  		break;
+              		case 67:
+                  		printf("1p right\n");
+                  		move(RIGHT);
+                  		break;
+              		case 65:
+                  		printf("1p up\n");
+                  		move(UP);
+                  		break;
+              		case 66:
+                  		printf("1p down\n");
+                  		move(DOWN);
+                  		break;
+         	}
+        	}
 		else{
-			;
+			if(key == BOMB1){
+				if(threadErr = pthread_create(&firstbombThread, NULL, firstbombThreadRun, NULL)){
+					printf("Thread Err = %d", threadErr);
+				}
+
+			}else if(key == BOMB2){
+				if(threadErr = pthread_create(&secondbombThread, NULL, secondbombThreadRun, NULL)){
+					printf("Thread Err = %d", threadErr);
+				}
+			}else if(key == UP2|| key == 119){
+				printf("2p up\n");
+				move(UP2);
+			}else if(key == LEFT2 || key == 97){
+				printf("2p left\n");
+				move(LEFT2);
+			}else if(key == DOWN2 || key == 115){
+				printf("2p down\n");
+				move(DOWN2);
+			}else if(key == RIGHT2 || key == 100){
+				printf("2p right\n");
+				move(RIGHT2);
+			}
+			else
+				printf("NOPE\n");
+		}
+		if(end)	continue;
+			for(i = 0; i<8; i++){
+				for(j = 0; j<8; j++){
+					printf("%c",map[i][j]);	
+			}
+			printf("\n");
 		}
 		
 		
-		write(sockfd, &ch, 1);	
-		read(sockfd, &ch, 1);
+		//write(sockfd, &ch, 1);	
+		//read(sockfd, &ch, 1);
+		
+		/* socket size = char(1)x8x8 */
+		write(sockfd, &map, 64);	
+		read(sockfd, &map, 64);
 	
 	
-		printf("char from server = %c\n", ch);
+		//printf("char from server = %c\n", ch);
 	
-		if(ch == 'Q' || ch== 'q'){
-			printf("quit by q input\n");
+		if(die){
+			printf("quit by Win\n");
 			close(sockfd);
 			exit(0);
 		}
 		else {
-			printf("not quit \n");
+			//printf("not quit \n");
+			;
 		}
 	}
 }
