@@ -132,6 +132,16 @@ int main()
 				for(i=0;i<64;i++) {map[i]=RGB565_BLUE; usleep(25*1000);}
 			}
 			
+			/* clear the led matrix */
+			memset(map, 0, FILESIZE+1);
+			
+			/* un-map and close */
+			if(munmap(map, FILESIZE+1) == -1){
+				perror("Error unmapping the file");
+			}
+			close(fbfd);
+			
+			return 0;
 		}
 		
 		write(client_sockfd, &map , 8*8+1);
