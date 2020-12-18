@@ -42,7 +42,7 @@ int main()
 	/*vars for LED MATRIX*/
 	int i;
 	int fbfd;
-	char *map;
+	uint16_t *map;
 	uint16_t *p;
 	struct fb_fix_screeninfo fix_info;
 	
@@ -146,10 +146,11 @@ int main()
 		
 		write(client_sockfd, &map , 8*8+1);
 		
-		if(ch == 'Q' || ch == 'q'){
-			printf("close by q\n");
-		       	close(client_sockfd);
-		}
+		//if(ch == 'Q' || ch == 'q'){
+		//	printf("close by q\n");
+		 //      	close(client_sockfd);
+		// }
+	
 	}
-}
 
+}
