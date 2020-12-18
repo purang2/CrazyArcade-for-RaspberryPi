@@ -6,9 +6,34 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include <time.h>
+#include <termio.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <pthread.h>
+
+
+#define LEFT 1
+#define RIGHT 2
+#define UP 3
+#define DOWN 4
+
+//대문자 wasd 
+#define LEFT2 65
+#define RIGHT2 68
+#define UP2 87
+#define DOWN2 83 
+
+#define BOMB1 32 //space
+#define BOMB2 9 //Tab
+
+
 
 /* RPI_CLIENT .C */
 
+
+
+int getch(void);
 
 int main()
 {
@@ -58,3 +83,25 @@ int main()
 }
 
 
+
+int getch(void){
+	int ch;
+	
+	struct termios buf;
+	struct termios save;
+
+	tcgetattr(0, &save);
+	buf = save;
+
+	buf.c_lflag &= ~(ICANON|ECHO);
+	buf.c_cc[VMIN] = 1;
+	buf.c_cc[VTIME] = 0;
+
+	tcsetattr(0, TCSAFLUSH, &buf);
+
+	ch = getchar();
+
+	tcsetattr(0, TCSAFLUSH, &save);
+
+	return ch;
+}
