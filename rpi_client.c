@@ -220,8 +220,9 @@ int main()
 		//read(sockfd, &ch, 1);
 		
 		/* socket size = char(1)x8x8 */
-		write(sockfd, &map, 64);	
-		read(sockfd, &map, 64);
+		/* last bit(65): Win-flag (isWin?->false/default:0, True:'1' or '2' or '3' (W/L/D) )*/
+		write(sockfd, &map, 64+1);	
+		read(sockfd, &map, 64+1);
 	
 	
 		//printf("char from server = %c\n", ch);
@@ -244,7 +245,8 @@ void die(int a){
 		bomb1 = false;
 		map[b1y][b1x] = 'O';
 		if(((p1x>=b1x-3 && p1x<=b1x+3) && (p1y>=b1y-3 && p1y<=b1y+3))&&((p2x>=b1x-3 && p2x<= b1x+3) && (p2y>=b1y-3 && p2y<=b1y+3))){
-                         printf("DRaW\n");
+                         printf("DRAW\n");
+			 map[64] = '3'; /*winner bit = 3(Draw) */
 			 end = true;
                  }else if((p1x>=b1x-3 && p1x<=b1x+3) && (p1y>=b1y-3 && p1y<=b1y+3)){
                          printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
@@ -252,12 +254,15 @@ void die(int a){
 			 printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
 			 printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
 			 printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
+			 
+			 map[64] = '2'; /* winner bit = 2(2pwin) */
 			 end = true;
                  }else if((p2x>=b1x-3 && p2x<= b1x+3) && (p2y>=b1y-3 && p2y<=b1y+3)){
                          printf("1P WIN!!!!!!\n!!!!!!congraturation!!!!!!\n");
 			 printf("1P WIN!!!!!!\n!!!!!!congraturation!!!!!!\n");
 			 printf("1P WIN!!!!!!\n!!!!!!congraturation!!!!!!\n");
 			 printf("1P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
+			 map[64] = '1'; /* winner bit = 1(1pwin) */
 			 end = true;
                  }else{
 			printf("continue\n");
@@ -268,12 +273,15 @@ void die(int a){
 		map[b2y][b2x] = 'O';
                  if(((p1x>=b2x-3 && p1x<=b2x+3) && (p1y>=b2y-3 && p1y<=b2y+3))&&((p2x>=b2x-3 && p2x<= b2x+3) && (p2y>=b2y-3 && p2y<=b2y+3))){
                          printf("DRaW\n");
+			 map[64] = '3'; /* winner bit = 3(Draw) */
 			 end = true;
                  }else if((p1x>=b2x-3 && p1x<=b2x+3) && (p1y>=b2y-3 && p1y<=b2y+3)){
                          printf("2P WIN\n");
+			 map[64] = '2'; /* winner bit = 2(2PWIN) */
 			 end = true;
                  }else if((p2x>=b2x-3 && p2x<= b2x+3) && (p2y>=b2y-3 && p2y<=b2y+3)){
                          printf("1P WIN\n");
+			 map[64] = '1'; /* winner bit = 1(1PWIN) */
 			 end = true;
                  }else{
 			printf("continue\n");
