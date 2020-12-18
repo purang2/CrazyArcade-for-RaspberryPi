@@ -246,7 +246,7 @@ void die(int a){
 		map[b1y][b1x] = 'O';
 		if(((p1x>=b1x-3 && p1x<=b1x+3) && (p1y>=b1y-3 && p1y<=b1y+3))&&((p2x>=b1x-3 && p2x<= b1x+3) && (p2y>=b1y-3 && p2y<=b1y+3))){
                          printf("DRAW\n");
-			 map[64] = '3'; /*winner bit = 3(Draw) */
+			 &map[64] = '3'; /*winner bit = 3(Draw) */
 			 end = true;
                  }else if((p1x>=b1x-3 && p1x<=b1x+3) && (p1y>=b1y-3 && p1y<=b1y+3)){
                          printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
