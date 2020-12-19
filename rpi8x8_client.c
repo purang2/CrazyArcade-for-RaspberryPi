@@ -46,8 +46,8 @@ int b2y;
 bool end;         /* Game-over flag (Does game over?)*/
 
 //char map[8][8];          /* LED Matrix 2D array */
-//unsigned short *map;
-unsigned shor map[8][8];
+unsigned short *map;
+//unsigned shor map[8][8];
 void move(int m);
 int getch(void);
 void die(int a);
@@ -61,7 +61,7 @@ void *firstbombThreadRun(){
                 b1x = p1x;
                 b1y = p1y;
                	//map[b1y][b1x] = 'B';
-                map[b1y][b1x] = 3; /* BOMB : 3*/
+                *(map+b1y*8+b1x) = 3; /* BOMB : 3*/
 		sleep(2);
 		die(1);		
        }
@@ -74,7 +74,7 @@ void *secondbombThreadRun(){
                  b2x = p2x;
                  b2y = p2y;
                  //map[b2y][b2x] = 'B';
-                 map[b1y][b1x] =3; 
+                 *(map+b1y*8+b1x) =3; 
 		 sleep(2);
                  die(2);
        }
@@ -101,9 +101,9 @@ int main()
 	/* Initialization */
     	for(i = 0; i<8; i++) 
 		    for(j = 0; j<8; j++)
-            map[i][j]=0;
-	map[p1y][p1x] = 1;
-	map[p2y][p2x] = 2;
+            		*(map+i*8+j)=0;
+	*(map+p1y*8+p1x) = 1;
+	*(map+p2y*8+p2x) = 2;
  	
     	pthread_t firstThread, secondThread, firstbombThread, secondbombThread;
     	int threadErr;
@@ -149,10 +149,10 @@ int main()
 
 		 	for(i = 0; i<8; i++)		 
 				for(j=0; j <8;j++)
-            map[i][j] =0; 
+            		*(map+i*8+j) =0; 
 			//memset(map, 0 ,64);
-	    	 	map[p1y][p1x] = 1; /* P1's Location */
-    		 	map[p2y][p2x] = 2; /* P2's Location */
+	    	 	*(map+p1y*8+p1x) = 1; /* P1's Location */
+    		 	*(map+p2y*8+p2x) = 2; /* P2's Location */
  
 		}
 		
@@ -214,7 +214,7 @@ int main()
 		if(end)	continue;
 			
 		for(i = 0; i<8; i++){
-			for(j = 0; j<8; j++) printf("%u",map[i][j]);	
+			for(j = 0; j<8; j++) printf("%u",*(map+i*8+j));	
 			printf("\n");
 		}
 		
@@ -296,7 +296,7 @@ void die(int a){
  	printf("BOMB!!!!!\n");
 	if(a == 1){
 		bomb1 = false;
-		map[b1y][b1x] = 0; /* 기존위치를 0으로*/
+		*(map+b1y*8+b1x) = 0; /* 기존위치를 0으로*/
 		if(((p1x>=b1x-3 && p1x<=b1x+3) && (p1y>=b1y-3 && p1y<=b1y+3))&&((p2x>=b1x-3 && p2x<= b1x+3) && (p2y>=b1y-3 && p2y<=b1y+3))){
                          printf("DRAW\n");
 			 //map[64] = 3; /*map[64]는 winner 비트 winner bit = 3(Draw) */
@@ -323,7 +323,7 @@ void die(int a){
  
          }else{
 		bomb2 = false;
-		map[b2y][b2x] = 0;
+		*(map+b2y*8+b2x) = 0;
                  if(((p1x>=b2x-3 && p1x<=b2x+3) && (p1y>=b2y-3 && p1y<=b2y+3))&&((p2x>=b2x-3 && p2x<= b2x+3) && (p2y>=b2y-3 && p2y<=b2y+3))){
                          printf("DRaW\n");
 			 //map[64] = 3; /* winner bit = 3(Draw) */
@@ -350,66 +350,66 @@ void move(int m){
 	switch(m){
 		case LEFT:
 			if(p1x>0){
-				if(map[p1y][p1x] != 3) /* 'B' == 3*/
-				map[p1y][p1x] = 0;
+				if(*(map+p1y*8+p1x) != 3) /* 'B' == 3*/
+				*(map+p1y*8+p1x) = 0;
 				p1x--;
-				map[p1y][p1x] = 1;
+				*(map+p1y*8+p1x) = 1;
 			}
 			break;
 		case RIGHT:
 			if(p1x<7){
-				if(map[p1y][p1x] != 3)
-				map[p1y][p1x] = 0;
+				if(*(map+p1y*8+p1x) != 3)
+				*(map+p1y*8+p1x) = 0;
 				p1x++;
-				map[p1y][p1x] = 1;
+				*(map+p1y*8+p1x) = 1;
 			}
 			break;
 		case UP:
 			if(p1y>0){
-				if(map[p1y][p1x] != 3)
-				map[p1y][p1x] = 0;
+				if(*(map+p1y*8+p1x) != 3)
+				*(map+p1y*8+p1x) = 0;
 				p1y--;
-				map[p1y][p1x] = 1;
+				*(map+p1y*8+p1x) = 1;
 			}
 			break;
 		case DOWN:
 			if(p1y<7){
-				if(map[p1y][p1x] != 3)
-				map[p1y][p1x] = 0;
+				if(*(map+p1y*8+p1x) != 3)
+				*(map+p1y*8+p1x) = 0;
 				p1y++;
-				map[p1y][p1x] = 1;
+				*(map+p1y*8+p1x) = 1;
 			}
 			break;
 		case LEFT2:
 			if(p2x>0){
-				if(map[p2y][p2x] != 3)
-				map[p2y][p2x] = 0;
+				if(*(map+p2y*8+p2x) != 3)
+				*(map+p2y*8+p2x) = 0;
 				p2x--;
-				map[p2y][p2x] = 2;
+				*(map+p2y*8+p2x) = 2;
 			}
 			break;
 		case RIGHT2:
 			if(p2x<7){
-                                if(map[p2y*8+p2x] != 3)
-				map[p2y][p2x] = 0;
+                                if(*(map+p2y*8+p2x) != 3)
+				*(map+p2y*8+p2x) = 0;
 				p2x++;
-				map[p2y][p2x] = 2;
+				*(map+p2y*8+p2x) = 2;
 			}
 			break;
 		case UP2:
 			if(p2y>0){
-                                if(map[p2y*8+p2x] != 3)
-				map[p2y][p2x] = 0;
+                                if(*(map+p2y*8+p2x) != 3)
+				*(map+p2y*8+p2x) = 0;
 				p2y--;
-				map[p2y][p2x] = 2;
+				*(map+p2y*8+p2x) = 2;
 			}
 			break;
 		case DOWN2:
 			if(p2y<7){
-                                if(map[p2y*8+p2x] != 3)
-				map[p2y][p2x] = 0;
+                                if(*(map+p2y*8+p2x) != 3)
+				*(map+p2y*8+p2x) = 0;
 				p2y++;
-				map[p2y][p2x] = 2;
+				*(map+p2y*8+p2x) = 2;
 			}
 			break;
 	}
