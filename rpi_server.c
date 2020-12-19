@@ -42,8 +42,9 @@ int main()
 	/*vars for LED MATRIX*/
 	int i;
 	int fbfd;
-	uint16_t *map;
-	uint16_t *p;
+	//uint16_t *map;
+	//uint16_t *p;
+	unsigned short *map;
 	struct fb_fix_screeninfo fix_info;
 	
 	
@@ -90,7 +91,7 @@ int main()
 	
 	/*set a pointer to the start of the memory area */
 	p=map;
-	
+	//
 	/*clear the led matrix */
 	memset(map, 0 , FILESIZE);
 	
@@ -110,24 +111,25 @@ int main()
 		read(client_sockfd, &map, 8*8+1);
 		
 		/*Logic */
+		/*map[i] =  1P: 1 , 2P: 2, BOMB:3 */
 		for(i =0 ; i< NUM_WORDS; i++) {
-		   if(map[i] == '1') map[i]=RGB565_RED;
-		   else if(map[i] == '2') map[i]=RGB565_GREEN;
-		   else if(map[i] == 'B') map[i]=RGB565_BLUE;	
+		   if(map[i] == 1) map[i]=RGB565_RED;
+		   else if(map[i] == 2) map[i]=RGB565_GREEN;
+		   else if(map[i] == 3) map[i]=RGB565_BLUE;	
 		}
 		
 		if(map[64]!=0){
 			usleep(1000*1000);
 			printf("GAME OVER!!\n");
-			if(map[64]=='1') {
+			if(map[64]==1) {
 				printf("1P WIN!!\n");
 				for(i=0;i<64;i++) {map[i]=RGB565_RED; usleep(25*1000);}
 			}
-			if(map[64]=='2') {
+			if(map[64]==2) {
 				printf("2P WIN!!\n");
 				for(i=0;i<64;i++) {map[i]=RGB565_GREEN; usleep(25*1000);}
 			}
-			if(map[64]=='3') {
+			if(map[64]==3) {
 				printf("NOBODY IS ALIVE !!\n DRAW GAME!!\n");
 				for(i=0;i<64;i++) {map[i]=RGB565_BLUE; usleep(25*1000);}
 			}
