@@ -160,7 +160,6 @@ int main()
 		key = getch();           // 3. 방향키가 입력瑛 때 224 00 이 버퍼에 있다. 224부터 빼준다. 
         	key_process(key);
 		
-		/*
 		if(key== 27|| key ==0) {
 			key = getch();
 			key = getch();
@@ -209,7 +208,6 @@ int main()
 			else
 				printf("NOPE\n");
 		}
-		*/
 		if(end)	continue;
 			
 		for(i = 0; i<8; i++){
@@ -238,7 +236,7 @@ int main()
 		}
 	}
 }
-
+/*
 void key_process(int key){
 
 	if(key== 27|| key ==0) {
@@ -290,7 +288,7 @@ void key_process(int key){
 		}
 	}
 }	
-
+*/
 
 void die(int a){
  	printf("BOMB!!!!!\n");
@@ -398,7 +396,7 @@ void move(int m){
 			break;
 		case UP2:
 			if(p2y>0){
-                                if(map[p2y*8+p2x] != '3)
+                                if(map[p2y*8+p2x] != 3)
 				map[p2y*8+p2x] = 0;
 				p2y--;
 				map[p2y*8+p2x] = 2;
@@ -406,7 +404,7 @@ void move(int m){
 			break;
 		case DOWN2:
 			if(p2y<7){
-                                if(map[p2y*8+p2x] != 'B')
+                                if(map[p2y*8+p2x] != 3)
 				map[p2y*8+p2x] = 0;
 				p2y++;
 				map[p2y*8+p2x] = 2;
