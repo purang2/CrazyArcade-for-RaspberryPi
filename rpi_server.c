@@ -90,7 +90,7 @@ int main()
 
 	
 	/*set a pointer to the start of the memory area */
-	p=map;
+	//p=map;
 	//
 	/*clear the led matrix */
 	memset(map, 0 , FILESIZE);
