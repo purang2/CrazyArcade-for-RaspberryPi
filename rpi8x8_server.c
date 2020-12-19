@@ -17,7 +17,7 @@
 
 #define FILEPATH "/dev/fb0" // device path
 #define NUM_WORDS 64
-#define FILESIZE (NUM_WORDS *sizeof(uint16_t))
+#define FILESIZE (NUM_WORDS *sizeof(unsigned short))
 
 
 /*
@@ -44,8 +44,8 @@ int main()
 	int fbfd;
 	//uint16_t *map;
 	//uint16_t *p;
-	unsigned short *map;
-  unsigned short map[8][8];
+	//unsigned short *map;
+  	unsigned short map[8][8];
   
 	struct fb_fix_screeninfo fix_info;
 	
@@ -119,7 +119,7 @@ int main()
 		/*Logic */
 		/*map[i] =  1P: 1 , 2P: 2, BOMB:3 */
 		for(i =0 ; i<8; i++) {
-      for(j =0; j<8;j++){
+      			for(j =0; j<8;j++){
 		   if(map[i][j] == 1) map[i][j]=RGB565_RED;
 		   else if(map[i][j] == 2) map[i][j]=RGB565_GREEN;
 		   else if(map[i][j] == 3) map[i][j]=RGB565_BLUE;	
