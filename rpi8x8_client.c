@@ -61,7 +61,7 @@ void *firstbombThreadRun(){
                 b1x = p1x;
                 b1y = p1y;
                	//map[b1y][b1x] = 'B';
-                map[b1y*8+b1x] = 3; /* BOMB : 3*/
+                map[b1y][b1x] = 3; /* BOMB : 3*/
 		sleep(2);
 		die(1);		
        }
