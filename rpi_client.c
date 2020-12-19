@@ -51,7 +51,7 @@ unsigned short *map;
 void move(int m);
 int getch(void);
 void die(int a);
-void key_process(int key);
+//void key_process(int key);
 
 /* Multi Threading : Bomb function Bomb1-Bomb2 concurrent */
 
@@ -159,7 +159,7 @@ int main()
 		//scanf("%c\n", &ch);
 		
 		key = getch();           // 3. 방향키가 입력瑛 때 224 00 이 버퍼에 있다. 224부터 빼준다. 
-        	key_process(key);
+        	//key_process(key);
 		
 		if(key== 27|| key ==0) {
 			key = getch();
