@@ -97,7 +97,7 @@ int main()
 	bomb2 = false;
     	int key;
     	int i,j;
-    
+    	map= (*unsigned short)malloc(1024);
 	/* Initialization */
     	for(i = 0; i<8; i++) 
 		    for(j = 0; j<8; j++)
@@ -223,13 +223,13 @@ int main()
 		
 		/* socket size = char(1)x8x8 */
 		/* last bit(65): Win-flag (isWin?->false/default:0, True:'1' or '2' or '3' (W/L/D) )*/
-		write(sockfd, &map, 64);	
-		read(sockfd, &map, 64);
+		write(sockfd, &map, 65);	
+		read(sockfd, &map, 65);
 	
 	
 		//printf("char from server = %c\n", ch);
 	
-		if(die){
+		if(end){
 			printf("quit by Win\n");
 			close(sockfd);
 			exit(0);
