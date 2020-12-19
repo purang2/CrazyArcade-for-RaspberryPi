@@ -99,7 +99,7 @@ int main()
 	
   for(i =0;i<8;i++)
     for(j=0;j<8;j++)
-      map[i][j] =0;
+      *(map+i*8+j) =0;
       
     
 	/* make wait-Queue and infinite-loop(Running-loop) */
@@ -120,32 +120,32 @@ int main()
 		/*map[i] =  1P: 1 , 2P: 2, BOMB:3 */
 		for(i =0 ; i<8; i++) {
       			for(j =0; j<8;j++){
-		   if(map[i][j] == 1) map[i][j]=RGB565_RED;
-		   else if(map[i][j] == 2) map[i][j]=RGB565_GREEN;
-		   else if(map[i][j] == 3) map[i][j]=RGB565_BLUE;	
+		   if(*(map+i*8+j) == 1) *(map+i*8+j)=RGB565_RED;
+		   else if(*(map+i*8+j) == 2) *(map+i*8+j)=RGB565_GREEN;
+		   else if(*(map+i*8+j) == 3) *(map+i*8+j)=RGB565_BLUE;	
 		  }
     }
 		/*
-		if(map[64]!=0){
+		if(*(map+64)!=0){
 			usleep(1000*1000);
 			printf("GAME OVER!!\n");
-			if(map[64]==1) {
+			if(*(map+64)==1) {
 				printf("1P WIN!!\n");
 				for(i=0;i<8;i++) 
           for(j=0;j<8;j++)
-          {map[i][j]=RGB565_RED; usleep(25*1000);}
+          {*(map+i*8+j)=RGB565_RED; usleep(25*1000);}
 			}
-			if(map[64]==2) {
+			if(*(map+64)==2) {
 				printf("2P WIN!!\n");
 				for(i=0;i<8;i++) 
           for(j=0;j<8;j++)
-          {map[i][j]=RGB565_GREEN; usleep(25*1000);}
+          {*(map+i*8+j)=RGB565_GREEN; usleep(25*1000);}
 			}
-			if(map[64]==3) {
+			if(*(map+64)==3) {
 				printf("NOBODY IS ALIVE !!\n DRAW GAME!!\n");
 				for(i=0;i<8;i++) 
           for(j=0;j<8;j++)
-          {map[i][j]=RGB565_BLUE; usleep(25*1000);}
+          {*(map+i*8+j)=RGB565_BLUE; usleep(25*1000);}
 			}
 			
 			memset(map, 0, FILESIZE+1);
@@ -160,7 +160,7 @@ int main()
 		*/
     
 		write(client_sockfd, &map , 8*8);
-		
+		close(client_sockfd);
 		//if(ch == 'Q' || ch == 'q'){
 		//	printf("close by q\n");
 		 //      	close(client_sockfd);
