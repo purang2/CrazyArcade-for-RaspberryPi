@@ -3,7 +3,7 @@
 
 ## 동작하는 코드
 
-서버 : server_1.c
+서버 : server.c
 
 
-클라이언트: client_1.c
+클라이언트: client.c
