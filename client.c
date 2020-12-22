@@ -168,7 +168,7 @@ int main()
                 }
                 printf("input: ");
 
-                key = getch();           // 3. 방향키가 입력瑛 때 27 0000 이 버퍼에 있다. 27부터 빼준다.
+                key = getch();           // 3. 방향키가 입력될 때 27 00 00 이 버퍼에 있다. 27부터 빼준다. 마지막으로 어느방향인지 구분
 
                 if(key== 27|| key ==0) {
                         key = getch();
@@ -194,12 +194,12 @@ int main()
                 }
                 else{
                         if(key == BOMB1){
-                                if(threadErr = pthread_create(&firstbombThread, NULL, firstbombThreadRun, NULL)){
+                                if(threadErr = pthread_create(&firstbombThread, NULL, firstbombThreadRun, NULL)){ /* bomb1 thread생성 */
                                         printf("Thread Err = %d", threadErr);
                                 }
 
                         }else if(key == BOMB2){
-                                if(threadErr = pthread_create(&secondbombThread, NULL, secondbombThreadRun, NULL)){
+                                if(threadErr = pthread_create(&secondbombThread, NULL, secondbombThreadRun, NULL)){ /* bomb2 thread생성 */
                                         printf("Thread Err = %d", threadErr);
                                 }
                         }else if(key == UP2|| key == 119){
@@ -249,7 +249,7 @@ void die(int a){
         printf("BOMB!!!!!\n");
         if(a == 1){
                 bomb1 = false;
-                *(map+b1y*8+b1x) = 0; /* 기존위치를 0으로*/
+                *(map+b1y*8+b1x) = 0; /* 기존 폭탄 위치 LED를 끔*/
                 if(((p1x>=b1x-2 && p1x<=b1x+2) && (p1y>=b1y-2 && p1y<=b1y+2))&&((p2x>=b1x-2 && p2x<= b1x+2) && (p2y>=b1y-2 && p2y<=b1y+2))){
                          printf("DRAW\n");
                          *(map+64) = 3; /* map[64]는 winner 비트 winner bit = 3(Draw) */
