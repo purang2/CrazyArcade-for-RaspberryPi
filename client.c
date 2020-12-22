@@ -6,34 +6,40 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <malloc.h>
-
-#include <time.h>
-#include <termio.h>
-#include <signal.h>
+#include <malloc.h>   /* Memory Allocation */
+#include <time.h>     
+#include <termio.h>    
+#include <signal.h>    
 #include <stdbool.h>
-#include <pthread.h>
+#include <pthread.h>  /* Threading */
 
+ 
 
+//1P KEY
 #define LEFT 1
 #define RIGHT 2
 #define UP 3
 #define DOWN 4
 
-//대문자 wasd
+//2P KEY: 대문자 WASD 
 #define LEFT2 65
 #define RIGHT2 68
 #define UP2 87
 #define DOWN2 83
 
-#define BOMB1 32 //space
-#define BOMB2 9 //Tab
 
 
-#define RGB565_RED 0xF800
-#define RGB565_GREEN 0x07E0
-#define RGB565_BLUE 0x001F
+#define BOMB1 32 /* 1P 공격KEY: Space Bar */
+#define BOMB2 9  /* 2P 공격KEY: Tab       */ 
 
+
+
+/*   LED MATRIX 색상레지스터 RGB565 framebuffer 정보 */
+/*   RRRR/ RGGG/ GGGB/ BBBB */
+
+#define RGB565_RED 0xF800       /* RED는 1111/ 1000/ 0000/ 0000 */
+#define RGB565_GREEN 0x07E0     /* GRN은 0000/ 0111/ 1110/ 0000 */
+#define RGB565_BLUE 0x001F      /* BLU는 0000/ 0000/ 0001/ 1111 */
 
 
 /* RPI64_CLIENT .C */
