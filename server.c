@@ -43,13 +43,9 @@ int main()
         /*vars for LED MATRIX*/
         int i,j;
         int fbfd;
-        //uint16_t *map;
-        //uint16_t *p;
         unsigned short *map;
-        //unsigned short map[8][8];
 
         struct fb_fix_screeninfo fix_info;
-
 
         map = (unsigned short*)malloc(1024);
 
@@ -67,13 +63,6 @@ int main()
                 exit(EXIT_FAILURE);
         }
 
-        /* now check the correct device has been found */
-        //if(strcmp(fix_info.id, "RPI-Sense FB") != 0 ){
-        //      printf("%s\n", "Error: Rpi-Sense FB not found");
-        //      close(fbfd);
-        //      exit(EXIT_FAILURE);
-        //}
-
         /* map the led frame buffer device into memory */
         map = mmap(NULL, FILESIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
         if( map== MAP_FAILED){
@@ -81,10 +70,6 @@ int main()
                 perror("Error mmapping the file");
                 exit(EXIT_FAILURE);
         }
-
-
-        //listen(server_sockfd, 1025);
-        //while(1){
 
         /* For running server */
         unlink("server socket");
@@ -96,42 +81,31 @@ int main()
         bind(server_sockfd, (struct sockaddr *)&server_address,server_len);
 
 
-        /*set a pointer to the start of the memory area */
-        //p=map;
-        //
-        /*clear the led matrix */
-        //memset(map, 0 , FILESIZE);
-
-  for(i =0;i<8;i++)
-    for(j=0;j<8;j++)
-      *(map+i*8+j) =0;
+        for(i =0;i<8;i++)
+              for(j=0;j<8;j++)
+                      *(map+i*8+j) =0;
 
 
         /* make wait-Queue and infinite-loop(Running-loop) */
         listen(server_sockfd, 5025);
         while(1){
-                //listen(server_sockfd, 1025);
 
                 printf("server waiting\n");
-
 
                 client_len = sizeof(client_address);
                 client_sockfd = accept(server_sockfd, (struct sockaddr *)&client_address, &client_len);
 
-                //read(client_sockfd, &ch, 1);
                 read(client_sockfd, map, 1024);
 
                 /*Logic */
                 /*map[i] =  1P: 1 , 2P: 2, BOMB:3 */
                 for(i =0 ; i<8; i++) {
                         for(j =0; j<8;j++){
-                   if(*(map+i*8+j) == 1) *(map+i*8+j)=RGB565_RED;
-                   else if(*(map+i*8+j) == 2) *(map+i*8+j)=RGB565_GREEN;
-                   else if(*(map+i*8+j) == 3) *(map+i*8+j)=RGB565_BLUE;
-
-                   //else *(map+i*8+j)=0xFFFF;
+                                   if(*(map+i*8+j) == 1) *(map+i*8+j)=RGB565_RED;
+                                   else if(*(map+i*8+j) == 2) *(map+i*8+j)=RGB565_GREEN;
+                                   else if(*(map+i*8+j) == 3) *(map+i*8+j)=RGB565_BLUE;
                         }
-    }
+                }
 
                 if(*(map+64)!=0){
                         usleep(1000*1000);
@@ -168,10 +142,6 @@ int main()
 
                 write(client_sockfd, map , 1024);
                 close(client_sockfd);
-                //if(ch == 'Q' || ch == 'q'){
-                //      printf("close by q\n");
-                 //             close(client_sockfd);
-                // }
 
         }
 
