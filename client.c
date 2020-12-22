@@ -58,13 +58,12 @@ int b2y;
 
 int end;         /* Game-over flag (Does game over?)*/
 
-//char map[8][8];          /* LED Matrix 2D array */
-unsigned short *map;
-//unsigned shor map[8][8];
+unsigned short *map; /* LED MATRIX의 8x8에 Mapping될 배열*/
+
 void move(int m);
 int getch(void);
 void die(int a);
-//void key_process(int key);
+
 
 /* Multi Threading : Bomb function Bomb1-Bomb2 concurrent */
 
@@ -92,23 +91,6 @@ void *secondbombThreadRun(){
                  die(2);
        }
 
-}
-
-
-void paint(int end){
-        int i, j;
-        if(end == 1)
-                for(i = 0; i<8; i++)
-                        for(j = 0; j<8; j++)
-                                *(map+i*8+j) = RGB565_RED;
-        else if(end == 2)
-                for(i = 0; i<8; i++)
-                        for(j = 0; j<8; j++)
-                                *(map+i*8+j) = RGB565_GREEN;
-        else if(end == 3)
-                for(i = 0; i<8; i++)
-                        for(j = 0; j<8; j++)
-                                *(map+i*8+j) = RGB565_BLUE;
 }
 
 
@@ -144,9 +126,7 @@ int main()
         char ch;
 
 
-
         while(1){
-
 
         /////////////////////////////////////////
         /* Socket (네트워크) variables */
@@ -167,9 +147,7 @@ int main()
         }
         /////////////////////////////////////////
 
-
         //Main Logic : 게임
-        //while(1){
 
                 if(end){
                         end = false;
@@ -188,20 +166,9 @@ int main()
                         *(map+p2y*8+p2x) = RGB565_GREEN; // P2's Location
 
                 }
-
-        /*if(end!=0){
-                printf("QUIT");
-                paint(end);
-                write(sockfd, map, 1024);
-                read(sockfd, map, 1024);
-                close(sockfd);
-                exit(0);
-        }       */
                 printf("input: ");
-                //scanf("%c\n", &ch);
 
                 key = getch();           // 3. 방향키가 입력瑛 때 27 0000 이 버퍼에 있다. 27부터 빼준다.
-                //key_process(key);
 
                 if(key== 27|| key ==0) {
                         key = getch();
@@ -251,23 +218,16 @@ int main()
                         else
                                 printf("NOPE\n");
                 }
-                //if(end)       continue;
 
                 for(i = 0; i<8; i++){
                         for(j = 0; j<8; j++) printf("%u",*(map+i*8+j));
                         printf("\n");
                 }
 
-                //write(sockfd, &ch, 1);
-                //read(sockfd, &ch, 1);
-
                 /* socket size = char(1)x8x8 */
                 /* last bit(65): Win-flag (isWin?->false/default:0, True:'1' or '2' or '3' (W/L/D) )*/
                 write(sockfd, map, 1024);
                 read(sockfd, map, 1024);
-
-
-                //printf("char from server = %c\n", ch);
 
                 if(end!=0){
                         printf("quit by Win\n");
@@ -282,58 +242,7 @@ int main()
                 }
         }
 }
-/*
-void key_process(int key){
-        if(key== 27|| key ==0) {
-                key = getch();
-                key = getch();
-                switch(key) {
-                        case 68:
-                                printf("1p left\n");
-                                move(LEFT);
-                                break;
-                        case 67:
-                                printf("1p right\n");
-                                move(RIGHT);
-                                break;
-                        case 65:
-                                printf("1p up\n");
-                                move(UP);
-                                break;
-                        case 66:
-                                printf("1p down\n");
-                                move(DOWN);
-                                break;
-                }
-        }
-        else{
-                if(key == BOMB1){
-                        if(threadErr = pthread_create(&firstbombThread, NULL, firstbombThreadRun, NULL)){
-                                printf("Thread Err = %d", threadErr);
-                        }
-                }else if(key == BOMB2){
-                        if(threadErr = pthread_create(&secondbombThread, NULL, secondbombThreadRun, NULL)){
-                                printf("Thread Err = %d", threadErr);
-                        }
-                }else if(key == UP2|| key == 119){
-                        printf("2p up\n");
-                        move(UP2);
-                }else if(key == LEFT2 || key == 97){
-                        printf("2p left\n");
-                        move(LEFT2);
-                }else if(key == DOWN2 || key == 115){
-                        printf("2p down\n");
-                        move(DOWN2);
-                }else if(key == RIGHT2 || key == 100){
-                        printf("2p right\n");
-                        move(RIGHT2);
-                }
-                else
-                        printf("NOPE\n");
-                }
-        }
-}
-*/
+
 
 void die(int a){
         int i, j;
@@ -343,7 +252,7 @@ void die(int a){
                 *(map+b1y*8+b1x) = 0; /* 기존위치를 0으로*/
                 if(((p1x>=b1x-2 && p1x<=b1x+2) && (p1y>=b1y-2 && p1y<=b1y+2))&&((p2x>=b1x-2 && p2x<= b1x+2) && (p2y>=b1y-2 && p2y<=b1y+2))){
                          printf("DRAW\n");
-                         *(map+64) = 3; //map[64]는 winner 비트 winner bit = 3(Draw)
+                         *(map+64) = 3; /* map[64]는 winner 비트 winner bit = 3(Draw) */
 
                          end = 3;
                  }else if((p1x>=b1x-2 && p1x<=b1x+2) && (p1y>=b1y-2 && p1y<=b1y+2)){
@@ -353,13 +262,13 @@ void die(int a){
                          printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
                          printf("2P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
                          end = 2;
-                         *(map+64) = 2; // winner bit = 2(2pwin) /
+                         *(map+64) = 2; /* winner bit = 2(2pwin) */
                  }else if((p2x>=b1x-2 && p2x<= b1x+2) && (p2y>=b1y-2 && p2y<=b1y+2)){
                          printf("1P WIN!!!!!!\n!!!!!!congraturation!!!!!!\n");
                          printf("1P WIN!!!!!!\n!!!!!!congraturation!!!!!!\n");
                          printf("1P WIN!!!!!!\n!!!!!!congraturation!!!!!!\n");
                          printf("1P WIN!!!!!!!\n!!!!congraturation!!!!!!\n");
-                         *(map+64) = 1; // winner bit = 1(1pwin)
+                         *(map+64) = 1; /* winner bit = 1(1pwin) */
 
                          end = 1;
 
@@ -372,16 +281,16 @@ void die(int a){
                 *(map+b2y*8+b2x) = 0;
                  if(((p1x>=b2x-2 && p1x<=b2x+2) && (p1y>=b2y-2 && p1y<=b2y+2))&&((p2x>=b2x-2 && p2x<= b2x+2) && (p2y>=b2y-2 && p2y<=b2y+2))){
                          printf("DRaW\n");
-                         *(map+64) = 3; // winner bit = 3(Draw) /
+                         *(map+64) = 3; /* winner bit = 3(Draw) */
                          end = 3;
                  }else if((p1x>=b2x-2 && p1x<=b2x+2) && (p1y>=b2y-2 && p1y<=b2y+2)){
                          printf("2P WIN\n");
-                         *(map+64) = 2; // winner bit = 2(2PWIN)
+                         *(map+64) = 2; /* winner bit = 2(2PWIN) */
 
                          end = 2;
                  }else if((p2x>=b2x-2 && p2x<= b2x+2) && (p2y>=b2y-2 && p2y<=b2y+2)){
                          printf("1P WIN\n");
-                         *(map+64) = 1; // winner bit = 1(1PWIN)
+                         *(map+64) = 1; /* winner bit = 1(1PWIN) */
                          end = 1;
                  }else{
                         printf("continue\n");
@@ -389,7 +298,6 @@ void die(int a){
          }
 
  }
-
 
 
 
@@ -464,8 +372,8 @@ void move(int m){
 }
 
 
-
-
+/* 리눅스 환경에서 getch()를 구현한 코드*/
+/* 오픈소스를 통해서 가져온 코드 */
 int getch(void){
         int ch;
 
