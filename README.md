@@ -13,6 +13,6 @@
 
 ## Made By
 
-[@GwonHJ](github.com/GwonHJ) (Kyungpook National University EE, Gwon Hyeon-ji)
+[@GwonHJ](https://github.com/GwonHJ) (Kyungpook National University EE, Gwon Hyeon-ji)
 
-[@Purang2](github.com/purang2) (Kyungpook National University EE, Lee Eun-chan)
+[@Purang2](https://github.com/purang2) (Kyungpook National University EE, Lee Eun-chan)
