@@ -7,3 +7,12 @@
 
 
 클라이언트: client.c
+
+
+
+
+## Made By
+
+@GwonHJ (Kyungpook National University EE, Gwon Hyeon-ji)
+
+@Purang2 (Kyungpook National University EE, Lee Eun-chan)
