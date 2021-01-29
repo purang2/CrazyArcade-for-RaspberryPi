@@ -244,6 +244,8 @@ int main()
 }
 
 
+/* Made by @GwonHJ */
+
 void die(int a){
         int i, j;
         printf("BOMB!!!!!\n");
@@ -300,7 +302,7 @@ void die(int a){
  }
 
 
-
+/* Made by @GwonHJ */
 void move(int m){
         switch(m){
                 case LEFT:
